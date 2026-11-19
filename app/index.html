@@ -3,20 +3,108 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Vice Cover Studio — GTA 6 style cover maker</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 <main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
+  <section class="controls" aria-label="Cover editor controls">
+    <h1>VICE COVER STUDIO</h1>
+    <p class="tagline">Turn any photo into a multi-panel GTA-style cover. Everything runs offline, in your browser — photos are never uploaded.</p>
+
+    <fieldset>
+      <legend>1 · Photos</legend>
+      <p class="hint">Pick a photo for each slot, or use a sample. Panels can reuse one photo with different crops.</p>
+      <div class="slot" data-slot="A">
+        <span class="slot-name">Photo A</span>
+        <input id="photo-a" type="file" accept="image/*" aria-label="Upload photo A">
+        <span class="samples">
+          <button type="button" data-slot="A" data-sample="akhmad">Akhmad</button>
+          <button type="button" data-slot="A" data-sample="boulevard">Boulevard</button>
+          <button type="button" data-slot="A" data-sample="pier">Pier</button>
+        </span>
+      </div>
+      <div class="slot" data-slot="B">
+        <span class="slot-name">Photo B</span>
+        <input id="photo-b" type="file" accept="image/*" aria-label="Upload photo B">
+        <span class="samples">
+          <button type="button" data-slot="B" data-sample="akhmad">Akhmad</button>
+          <button type="button" data-slot="B" data-sample="boulevard">Boulevard</button>
+          <button type="button" data-slot="B" data-sample="pier">Pier</button>
+        </span>
+      </div>
+      <div class="slot" data-slot="C">
+        <span class="slot-name">Photo C</span>
+        <input id="photo-c" type="file" accept="image/*" aria-label="Upload photo C">
+        <span class="samples">
+          <button type="button" data-slot="C" data-sample="akhmad">Akhmad</button>
+          <button type="button" data-slot="C" data-sample="boulevard">Boulevard</button>
+          <button type="button" data-slot="C" data-sample="pier">Pier</button>
+        </span>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>2 · Layout &amp; size</legend>
+      <div class="row" role="group" aria-label="Panel layout">
+        <label><input type="radio" name="layout" value="hero" checked> Hero + strip</label>
+        <label><input type="radio" name="layout" value="grid"> Comic 2×2</label>
+        <label><input type="radio" name="layout" value="poster"> Poster</label>
+      </div>
+      <div class="row" role="group" aria-label="Export size">
+        <label><input type="radio" name="size" value="1080x1080" checked> 1080 × 1080</label>
+        <label><input type="radio" name="size" value="1080x1350"> 1080 × 1350</label>
+        <label><input type="radio" name="size" value="1920x1080"> 1920 × 1080</label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>3 · One panel</legend>
+      <label>Panel
+        <select id="panel-select"></select>
+      </label>
+      <label>Photo in this panel
+        <select id="panel-photo">
+          <option value="A">Photo A</option>
+          <option value="B">Photo B</option>
+          <option value="C">Photo C</option>
+        </select>
+      </label>
+      <label>Zoom <span class="val" id="zoom-val">1.00×</span>
+        <input id="panel-zoom" type="range" min="1" max="2.5" step="0.05" value="1">
+      </label>
+      <label>Move left / right
+        <input id="panel-x" type="range" min="-1" max="1" step="0.05" value="0">
+      </label>
+      <label>Move up / down
+        <input id="panel-y" type="range" min="-1" max="1" step="0.05" value="0">
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend>4 · Words &amp; grade</legend>
+      <label>Title <input id="title" type="text" maxlength="40" value="Sunset Heist"></label>
+      <label>Subtitle <input id="subtitle" type="text" maxlength="40" value="Neon Nights"></label>
+      <label>Sunset grade <span class="val" id="grade-val">100%</span>
+        <input id="grade" type="range" min="0" max="1.5" step="0.05" value="1">
+      </label>
+      <label class="check"><input id="neon" type="checkbox" checked> Neon panel borders</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>5 · Export PNG</legend>
+      <div class="exports">
+        <button type="button" data-export="1080x1080">1080 × 1080</button>
+        <button type="button" data-export="1080x1350">1080 × 1350</button>
+        <button type="button" data-export="1920x1080">1920 × 1080</button>
+      </div>
+      <p id="status" role="status">Photo A is Akhmad — ready.</p>
+    </fieldset>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
+  <section class="preview" aria-label="Live cover preview">
+    <canvas id="cover" width="1080" height="1080" aria-label="Live preview of the cover"></canvas>
+    <p class="preview-note">Live preview — what you see is what the PNG gets.</p>
+  </section>
 </main>
 <script type="module" src="./src/main.js"></script>
 </body>
